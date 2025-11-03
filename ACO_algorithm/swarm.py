@@ -14,7 +14,7 @@ class Swarm:
 
     def update_pheromones(self, ant, node_in, node_out):
         self.graph.graph_pheromone[node_in][node_out]+=ant.graph.graph_pheromone[node_in][node_out]
-        self.updated_pheromone_path.add((node_in, node_out))
+        ant.updated_pheromone_path.add((node_in, node_out)) #might need a fix
 
     def generate_ant_list(self, starter_node, ant_amount):
         self.ant_list=[Ant(starter_node, self.graph, starter_node, self.delta) for x in range(ant_amount)]
@@ -31,11 +31,11 @@ class Swarm:
             ant.complete_path()
             if ant.path_length<shortest_path_found:
                 ant_with_shortest_path=ant_index
-        self.update_graph_pheromones_from_ant(self.ant_list[ant_index])
-        return shortest_path_found,self.ant_list[ant_index].path
+        self.update_graph_pheromones_from_ant(self.ant_list[ant_with_shortest_path])
+        return shortest_path_found,self.ant_list[ant_with_shortest_path].path
 
 
-    def find_shortest_path(self):
+    def find_shortest_path(self): #main function
         shortest_path_length=np.inf
         shortest_path=[]
         for _ in range(self.path_iteration):
