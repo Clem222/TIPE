@@ -21,7 +21,7 @@ class Ant:
     def get_subpath_length(self, node_in, node_out): #returns subpath length
         return self.graph.graph[node_in][node_out]
 
-    def chose_next_node(self, current_node:int):
+    def chose_next_node(self, current_node:int):  #chose the next node, considering the pheromones and the length of the path
         probabilities={}
         for neightbor_node in range(len(self.graph.graph[current_node])):
             if neightbor_node in self.unvisited_nodes:
