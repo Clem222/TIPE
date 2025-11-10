@@ -18,15 +18,16 @@ def generate_node_edges_value(zero_value_proba, interval):
 
 #graph variables
 path_length_interval=(1,10)
-graph_height=5
+graph_height=4
 graph_width=graph_height
 nodes_name=alphabetic_string[0:graph_width*graph_height] #considering that there is less than 26 nodes
 zero_probability=0
 
-main_graph = Graph([generate_node_edges_value(zero_probability, path_length_interval) \
-                    for node in range(graph_height*graph_width)], nodes_name, graph_height, graph_width)
+main_graph = Graph([generate_node_edges_value(zero_probability, path_length_interval) if node%graph_width>node//graph_width
+                    else -1\
+                    for node in range(graph_height*graph_width)], [x for x in range(graph_height+1)], graph_height, graph_width)
 
-test_swarm=Swarm(main_graph, 5, 0, 3, 2)
+test_swarm=Swarm(main_graph, 5, 0, 1, 2)
 test_ant=Ant(0, main_graph, 0, 1.1)
 #prepare graph
 Gnx=nx.from_numpy_array(main_graph.graph)
@@ -47,7 +48,9 @@ nx.draw_networkx_labels(Gnx, pos, font_size=12, font_weight='bold')
 edge_labels = nx.get_edge_attributes(Gnx, 'weight')
 nx.draw_networkx_edge_labels(Gnx, pos, edge_labels, font_size=10)
 
-print(test_ant.complete_path())
+path_length, path = test_swarm.find_shortest_path()
+print("chemin : ", [mapping[node] for node in path[0]], "\nLongueur du chemin : ", path_length)
+
 
 #show graph
 plt.title("Graphe avec distances", fontsize=16)

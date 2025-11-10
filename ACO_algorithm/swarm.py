@@ -12,27 +12,26 @@ class Swarm:
         self.ant_amount=ant_amount
         self.pheromone_graph=self.graph.graph_pheromone
 
-    def update_pheromones(self, ant, node_in, node_out):
-        self.graph.graph_pheromone[node_in][node_out]+=ant.graph.graph_pheromone[node_in][node_out]
-        ant.updated_pheromone_path.add((node_in, node_out)) #might need a fix
+    def update_pheromones(self, ant):  #this function is meant to be executed once self.updated_pheromone_path is empty
+        assert len(ant.unvisited_nodes) == 0
+        path_size = len(ant.path)
+        ant.graph.graph_pheromone *= ant.decay
+        for node_index in range(ant.path[:-1]):
+            ant.graph.graph_pheromone[node_index][node_index+1]+=ant.delta/path_size
 
     def generate_ant_list(self, starter_node, ant_amount):
         self.ant_list=[Ant(starter_node, self.graph, starter_node, self.delta) for x in range(ant_amount)]
-
-    def update_graph_pheromones_from_ant(self, ant):#update the global pheromone graph from a single ant 's modification
-        for subpath in ant.updated_pheromone_path:
-            self.update_pheromones(ant, subpath[0],subpath[1])
 
     def find_path(self): #finds the most interesting path found by ants in ant_list, then returns its length and its pattern
         self.generate_ant_list(self.starter_node, self.ant_amount)
         ant_with_shortest_path=None
         shortest_path_found=np.inf
         for ant_index, ant in enumerate(self.ant_list):
-            ant.complete_path()
+            ant.path = ant.complete_path()
             if ant.path_length<shortest_path_found:
                 ant_with_shortest_path=ant_index
-        self.update_graph_pheromones_from_ant(self.ant_list[ant_with_shortest_path])
-        return shortest_path_found,self.ant_list[ant_with_shortest_path].path
+                shortest_path_found = ant.path_length
+        return shortest_path_found, self.ant_list[ant_with_shortest_path].path
 
 
     def find_shortest_path(self): #main function
@@ -40,7 +39,8 @@ class Swarm:
         shortest_path=[]
         for _ in range(self.path_iteration):
             current_path_length, current_path=self.find_path()
+            print("current path : ", current_path, "associated length : ", current_path_length)
             if current_path_length<shortest_path_length:
                 shortest_path_length=current_path_length
                 shortest_path=current_path
-        return shortest_path_length,set(shortest_path)
+        return shortest_path_length,shortest_path
