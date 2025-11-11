@@ -16,11 +16,11 @@ def generate_node_edges_value(zero_value_proba, interval):
     else: return random.randint(interval[0], interval[1])
 
 #algorithm parameters
-delta=3
-decay=0.7
-batch_size=20
-iterations=5
-node_amount=30
+delta=1.5
+decay=0.5
+batch_size=50
+iterations=40
+node_amount=15
 
 #graph variables
 path_length_interval=(1,10)
