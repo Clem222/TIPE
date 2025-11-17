@@ -12,3 +12,7 @@ class Graph:
             self.graph[x,x]=0 #avoid nodes to loopback on themselves
         self.graph_pheromone = np.ones_like(self.graph, dtype=np.dtype(np.float64))
         self.node_list=node_list
+
+    def remove_subpath(self, node_in, node_out):
+        self.graph[node_in][node_out]=100000
+        self.graph[node_out][node_in]=100000
