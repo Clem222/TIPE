@@ -6,7 +6,6 @@ from graph import Graph
 from swarm import Swarm
 from ant import Ant
 import json
-
 alphabetic_string='ABCDEFGHIJKLMNOPQRSTUVWXYZ'
 
 #generate node edge value

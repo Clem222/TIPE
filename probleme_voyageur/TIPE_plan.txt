@@ -1,0 +1,14 @@
+TIPE : 
+Contexte réel : apporter une solution à un problème d'optimisation de livraison
+Considérer différents algorithmes relatifs à TSP, voir en quoi ils peuvent s'appliquer dans le cas d'une livraison.
+Objectif : trouver compromis intelligent entre complexité de l'algorithme, fiabilité/rapprochement de la solution parfaite.
+Variable supplémentaire : prendre en compte l'évolution du traffic en temps réel : api (évolution dynamique du parcours)
+démarcher ?...
+
+différents algorithmes : 
+KNN
+Clarke-wright savings
+algorithme génétique
+simulated annealing
+Algorithmes métaheuristiques
+
